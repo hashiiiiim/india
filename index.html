@@ -1,0 +1,1529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WanderNow - India Travel Experts</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            overflow-x: hidden;
+            color: #fff;
+            background-color: #f9f9f9;
+        }
+        
+        /* Hero Background with Side-Scrolling Images */
+        .hero-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .scrolling-images {
+            display: flex;
+            height: 100%;
+            width: 400%; /* 4 images wide */
+            animation: scrollBackground 60s linear infinite;
+        }
+        
+        .scrolling-images img {
+            width: 25%; /* Each image takes 25% of container */
+            height: 100%;
+            object-fit: cover;
+            flex-shrink: 0;
+            filter: brightness(0.8);
+        }
+        
+        @keyframes scrollBackground {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-75%); } /* Move 3 images (75%) to show the 4th */
+        }
+        
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 100%);
+        }
+        
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            transition: all 0.5s ease;
+            background-color: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        
+        nav.scrolled {
+            background-color: rgba(0, 0, 0, 0.9);
+            padding: 15px 5%;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo span {
+            color: #4CAF50;
+            margin-left: 5px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            transition: all 0.3s;
+            opacity: 0.9;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: #4CAF50;
+            opacity: 1;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: #4CAF50;
+            bottom: -5px;
+            left: 0;
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            font-size: 24px;
+            color: #fff;
+            cursor: pointer;
+            z-index: 101;
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+        }
+        
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+            line-height: 1.2;
+            animation: fadeInUp 1s ease;
+        }
+        
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            max-width: 800px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            animation: fadeInUp 1s ease 0.2s forwards;
+            opacity: 0;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            animation: fadeInUp 1s ease 0.4s forwards;
+            opacity: 0;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background-color: #4CAF50;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            border: 2px solid #4CAF50;
+            min-width: 200px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-button:hover {
+            background-color: transparent;
+            color: #4CAF50;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .cta-button:hover::before {
+            left: 100%;
+        }
+        
+        /* Scroll Down Indicator */
+        .scroll-down {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #fff;
+            font-size: 1.5rem;
+            animation: bounce 2s infinite;
+            cursor: pointer;
+            z-index: 10;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0) translateX(-50%);
+            }
+            40% {
+                transform: translateY(-20px) translateX(-50%);
+            }
+            60% {
+                transform: translateY(-10px) translateX(-50%);
+            }
+        }
+        
+        /* Main Content */
+        .content {
+            background-color: #fff;
+            color: #333;
+            padding: 80px 5%;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            color: #333;
+            font-size: 2.5rem;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: #4CAF50;
+        }
+        
+        /* India Tourism Section */
+        .tourism-section {
+            background-color: #f5f5f5;
+            padding: 60px 5%;
+            margin-bottom: 60px;
+            border-radius: 10px;
+        }
+        
+        .tourism-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .tourism-card {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .tourism-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .tourism-card h3 {
+            color: #4CAF50;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .tourism-card ul {
+            list-style-type: none;
+        }
+        
+        .tourism-card ul li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .tourism-card ul li::before {
+            content: '✓';
+            color: #4CAF50;
+            position: absolute;
+            left: 0;
+        }
+        
+        /* Packages Section */
+        .package-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .tab-button {
+            padding: 12px 25px;
+            background-color: #f5f5f5;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .tab-button:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .tab-button.active {
+            background-color: #4CAF50;
+            color: #fff;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .package-details {
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            padding: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .package-highlights {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .highlight-card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .highlight-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .highlight-card i {
+            font-size: 2rem;
+            color: #4CAF50;
+            margin-bottom: 15px;
+        }
+        
+        .itinerary-day {
+            margin-bottom: 30px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .itinerary-day h4 {
+            color: #4CAF50;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        
+        /* Testimonials */
+        .testimonials-container {
+            position: relative;
+            margin-bottom: 80px;
+        }
+        
+        .testimonials {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            gap: 30px;
+            padding: 20px 0;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+        
+        .testimonials::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+        
+        .testimonial-card {
+            flex: 0 0 300px;
+            scroll-snap-align: start;
+            background-color: #f9f9f9;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 20px;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+        
+        .testimonial-author img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+        
+        .author-info h4 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .author-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .testimonial-nav {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 10px;
+        }
+        
+        .testimonial-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #ddd;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .testimonial-dot.active {
+            background-color: #4CAF50;
+        }
+        
+        /* Blog Section */
+        .blog-section {
+            background-color: #f5f5f5;
+            padding: 60px 5%;
+            margin-bottom: 60px;
+            border-radius: 10px;
+        }
+        
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .blog-card {
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .blog-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .blog-image {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .blog-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .blog-card:hover .blog-image img {
+            transform: scale(1.1);
+        }
+        
+        .blog-content {
+            padding: 20px;
+        }
+        
+        .blog-content h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .blog-content p {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .read-more {
+            color: #4CAF50;
+            text-decoration: none;
+            font-weight: 600;
+            position: relative;
+        }
+        
+        .read-more::after {
+            content: '→';
+            margin-left: 5px;
+            transition: margin-left 0.3s;
+        }
+        
+        .read-more:hover::after {
+            margin-left: 10px;
+        }
+        
+        /* Booking Form */
+        .booking-form {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #f9f9f9;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        .submit-btn {
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            font-weight: 600;
+        }
+        
+        .submit-btn:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #222;
+            color: #fff;
+            padding: 60px 5% 30px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: #4CAF50;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column ul li a {
+            color: #bbb;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column ul li a:hover {
+            color: #4CAF50;
+        }
+        
+        .footer-column p {
+            color: #bbb;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: #333;
+            color: #fff;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            background-color: #4CAF50;
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #444;
+            color: #bbb;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .hero p {
+                font-size: 1.2rem;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 0;
+                left: -100%;
+                width: 80%;
+                height: 100vh;
+                background-color: rgba(0, 0, 0, 0.95);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 40px;
+                transition: left 0.5s;
+                z-index: 99;
+            }
+            
+            .nav-links.active {
+                left: 0;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .testimonial-card {
+                flex: 0 0 80%;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .cta-button {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 0.9rem;
+            }
+            
+            .cta-button {
+                padding: 12px 25px;
+                font-size: 1rem;
+                min-width: auto;
+            }
+            
+            .booking-form {
+                padding: 30px 20px;
+            }
+            
+            .package-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Background with Side-Scrolling Images -->
+    <div class="hero-background">
+        <div class="scrolling-images">
+            <!-- High-quality India images from Unsplash -->
+            <img src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Taj Mahal">
+            <img src="https://images.unsplash.com/photo-1587474260584-136574528ed5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Kerala Backwaters">
+            <img src="https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Himalayas">
+        </div>
+        <div class="overlay"></div>
+    </div>
+    
+    <!-- Navigation -->
+    <nav id="navbar">
+        <a href="#" class="logo">Wander<span>Now</span></a>
+        <div class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </div>
+        <div class="nav-links">
+            <a href="#packages">Packages</a>
+            <a href="#destinations">Destinations</a>
+            <a href="#responsible-travel">Discover Kerala</a>
+            <a href="#blog">Blog</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Discover Incredible India</h1>
+        <p>Experience the diversity of India through personalized journeys crafted by local experts</p>
+        <div class="hero-buttons">
+            <a href="#destinations" class="cta-button">Explore Destinations</a>
+            <a href="https://hashiiiiim.github.io/kerala/" class="cta-button">Discover Kerala</a>
+        </div>
+        <div class="scroll-down" onclick="document.querySelector('.content').scrollIntoView({ behavior: 'smooth' })">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
+    
+    <!-- Main Content -->
+    <div class="content">
+        <!-- India Tourism Section -->
+        <section class="tourism-section">
+            <h2 class="section-title">Why India?</h2>
+            <div class="tourism-grid">
+                <div class="tourism-card">
+                    <h3>India Tourism Highlights</h3>
+                    <ul>
+                        <li>Home to 38 UNESCO World Heritage Sites</li>
+                        <li>Diverse landscapes from Himalayas to beaches</li>
+                        <li>Rich cultural heritage spanning 5000+ years</li>
+                        <li>World's largest democracy with 1.4 billion people</li>
+                        <li>200+ recognized languages and dialects</li>
+                    </ul>
+                </div>
+                <div class="tourism-card">
+                    <h3>2025 Travel Trends</h3>
+                    <ul>
+                        <li>Wellness tourism with Ayurveda and yoga retreats</li>
+                        <li>Luxury train journeys like Palace on Wheels</li>
+                        <li>Adventure tourism in the Himalayas</li>
+                        <li>Cultural immersion with rural tourism</li>
+                        <li>Wildlife safaris in national parks</li>
+                    </ul>
+                </div>
+                <div class="tourism-card">
+                    <h3>Best Time to Visit</h3>
+                    <ul>
+                        <li><strong>October-March:</strong> Ideal for most regions</li>
+                        <li><strong>April-June:</strong> Best for hill stations</li>
+                        <li><strong>July-September:</strong> Monsoon magic in Kerala</li>
+                        <li><strong>November-February:</strong> Perfect for Rajasthan</li>
+                        <li><strong>Year-round:</strong> Goa, Kerala backwaters</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Destinations Section -->
+        <section id="destinations">
+            <h2 class="section-title">Top Destinations in India</h2>
+            
+            <div class="package-tabs">
+                <button class="tab-button active" data-tab="north">North India</button>
+                <button class="tab-button" data-tab="south">South India</button>
+                <button class="tab-button" data-tab="east">East India</button>
+                <button class="tab-button" data-tab="west">West India</button>
+            </div>
+            
+            <!-- North India -->
+            <div id="north" class="tab-content active">
+                <div class="package-details">
+                    <h3 style="text-align: center; margin-bottom: 30px; color: #4CAF50;">North India Highlights</h3>
+                    <p style="text-align: center; margin-bottom: 30px; max-width: 800px; margin-left: auto; margin-right: auto;">
+                        From the majestic Himalayas to the golden deserts of Rajasthan, North India offers a diverse range of experiences.
+                    </p>
+                    
+                    <div class="package-highlights">
+                        <div class="highlight-card">
+                            <i class="fas fa-landmark"></i>
+                            <h4>Golden Triangle</h4>
+                            <p>Delhi, Agra (Taj Mahal), Jaipur - India's most iconic circuit</p>
+                        </div>
+                        <div class="highlight-card">
+                            <i class="fas fa-mountain"></i>
+                            <h4>Himalayan Retreats</h4>
+                            <p>Shimla, Manali, Rishikesh, and spiritual Varanasi</p>
+                        </div>
+                        <div class="highlight-card">
+                            <i class="fas fa-umbrella-beach"></i>
+                            <h4>Punjab & Kashmir</h4>
+                            <p>Golden Temple in Amritsar and paradise of Srinagar</p>
+                        </div>
+                        <div class="highlight-card">
+                            <i class="fas fa-utensils"></i>
+                            <h4>Culinary Delights</h4>
+                            <p>Mughlai cuisine, street food, and Punjabi flavors</p>
+                        </div>
+                    </div>
+                    
+                    <h4 style="margin-bottom: 20px; color: #4CAF50;">Must-Visit Places</h4>
+                    
+                    <div class="itinerary-day">
+                        <h4>Delhi</h4>
+                        <p>Red Fort • Qutub Minar • India Gate • Chandni Chowk • Humayun's Tomb</p>
+                    </div>
+                    
+                    <div class="itinerary-day">
+                        <h4>Agra</h4>
+                        <p>Taj Mahal • Agra Fort • Fatehpur Sikri • Mehtab Bagh</p>
+                    </div>
+                    
+                    <div class="itinerary-day">
+                        <h4>Rajasthan</h4>
+                        <p>Jaipur's Amber Fort • Udaipur's Lake Palace • Jaisalmer's Golden Fort • Jodhpur's Mehrangarh</p>
+                    </div>
+                    
+                    <div class="itinerary-day">
+                        <h4>Himalayas</h4>
+                        <p>Rishikesh yoga • Shimla's colonial charm • Manali adventure • Leh-Ladakh landscapes</p>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 30px;">
+                        <a href="#booking" class="cta-button">Plan Your North India Trip</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- South India -->
+            <div id="south" class="tab-content">
+                <div class="package-details">
+                    <h3 style="text-align: center; margin-bottom: 30px; color: #4CAF50;">South India Highlights</h3>
+                    <p style="text-align: center; margin-bottom: 30px; max-width: 800px; margin-left: auto; margin-right: auto;">
+                        From tropical beaches to ancient temples, South India offers a completely different cultural experience.
+                    </p>
+                    
+                    <div class="package-highlights">
+                        <div class="highlight-card">
+                            <i class="fas fa-water"></i>
+                            <h4>Kerala Backwaters</h4>
+                            <p>Houseboat stays in Alleppey and beaches of Varkala</p>
+                        </div>
+                        <div class="highlight-card">
+                            <i class="fas fa-mountain"></i>
+                            <h4>Western Ghats</h4>
+                            <p>Munnar tea gardens • Coorg coffee plantations • Ooty hill station</p>
+                        </div>
+                        <div class="highlight-card">
+                            <i class="fas fa-umbrella-beach"></i>
+                            <h4>Beach Paradises</h4>
+                            <p>Goa's beaches • Pondicherry's French Quarter • Andaman Islands</p>
+                        </div>
+                        <div class="highlight-card">
+                            <i class="fas fa-utensils"></i>
+                            <h4>Culinary Delights</h4>
+                            <p>Dosa • Idli • Kerala seafood • Hyderabadi biryani • Filter coffee</p>
+                        </div>
+                    </div>
+                    
+                    <h4 style="margin-bottom: 20px; color: #4CAF50;">Must-Visit Places</h4>
+                    
+                    <div class="itinerary-day">
+                        <h4>Kerala</h4>
+                        <p>Backwaters • Tea gardens • Ayurveda • Kathakali • Beaches</p>
+                    </div>
+                    
+                    <div class="itinerary-day">
+                        <h4>Tamil Nadu</h4>
+                        <p>Meenakshi Temple • Mahabalipuram • Pondicherry • Kanyakumari</p>
+                    </div>
+                    
+                    <div class="itinerary-day">
+                        <h4>Karnataka</h4>
+                        <p>Bangalore • Mysore Palace • Hampi ruins • Coorg • Jog Falls</p>
+                    </div>
+                    
+                    <div class="itinerary-day">
+                        <h4>Andhra & Telangana</h4>
+                        <p>Hyderabad's Charminar • Tirupati Temple • Araku Valley • Ramoji Film City</p>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 30px;">
+                        <a href="#booking" class="cta-button">Plan Your South India Trip</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- East India -->
+            <div id="east" class="tab-content">
+                <div class="package-details">
+                    <h3 style="text-align: center; margin-bottom: 30px; color: #4CAF50;">East India Highlights</h3>
+                    <p style="text-align: center; margin-bottom: 30px; max-width: 800px; margin-left: auto; margin-right: auto;">
+                        From the Himalayas to the Bay of Bengal, East India offers diverse landscapes and rich cultural heritage.
+                    </p>
+                    
+                    <div class="package-highlights">
+                        <div class="highlight-card">
+                            <i class="fas fa-mountain"></i>
+                            <h4>Himalayan Kingdoms</h4>
+                            <p>Darjeeling tea gardens • Sikkim monasteries • Bhutan border</p>
+                        </div>
+                        <div class="highlight-card">
+                            <i class="fas fa-tree"></i>
+                            <h4>Wildlife & Nature</h4>
+                            <p>Sunderbans mangroves • Kaziranga rhinos • Cherrapunji rains</p>
+                        </div>
+                        <div class="highlight-card">
+                            <i class="fas fa-landmark"></i>
+                            <h4>Cultural Heritage</h4>
+                            <p>Kolkata's colonial charm • Puri's Jagannath Temple • Konark Sun Temple</p>
+                        </div>
+                        <div class="highlight-card">
+                            <i class="fas fa-utensils"></i>
+                            <h4>Culinary Delights</h4>
+                            <p>Bengali sweets • Momos • Thukpa • Assam tea • Odisha seafood</p>
+                        </div>
+                    </div>
+                    
+                    <h4 style="margin-bottom: 20px; color: #4CAF50;">Must-Visit Places</h4>
+                    
+                    <div class="itinerary-day">
+                        <h4>West Bengal</h4>
+                        <p>Kolkata • Darjeeling • Sunderbans • Shantiniketan • Digha</p>
+                    </div>
+                    
+                    <div class="itinerary-day">
+                        <h4>Sikkim</h4>
+                        <p>Gangtok • Nathu La Pass • Tsomgo Lake • Pelling • Yumthang Valley</p>
+                    </div>
+                    
+                    <div class="itinerary-day">
+                        <h4>Odisha</h4>
+                        <p>Puri • Konark • Bhubaneswar • Chilika Lake • Tribal villages</p>
+                    </div>
+                    
+                    <div class="itinerary-day">
+                        <h4>Seven Sisters</h4>
+                        <p>Assam tea gardens • Meghalaya living bridges • Arunachal monasteries • Nagaland tribes</p>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 30px;">
+                        <a href="#booking" class="cta-button">Plan Your East India Trip</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- West India -->
+            <div id="west" class="tab-content">
+                <div class="package-details">
+                    <h3 style="text-align: center; margin-bottom: 30px; color: #4CAF50;">West India Highlights</h3>
+                    <p style="text-align: center; margin-bottom: 30px; max-width: 800px; margin-left: auto; margin-right: auto;">
+                        From the beaches of Goa to the deserts of Gujarat, West India offers incredible diversity.
+                    </p>
+                    
+                    <div class="package-highlights">
+                        <div class="highlight-card">
+                            <i class="fas fa-umbrella-beach"></i>
+                            <h4>Beach Paradises</h4>
+                            <p>Goa's beaches • Mumbai's Marine Drive • Diu's quiet shores</p>
+                        </div>
+                        <div class="highlight-card">
+                            <i class="fas fa-landmark"></i>
+                            <h4>Historic Sites</h4>
+                            <p>Ajanta & Ellora caves • Mumbai's colonial architecture • Chhatrapati Shivaji sites</p>
+                        </div>
+                        <div class="highlight-card">
+                            <i class="fas fa-tree"></i>
+                            <h4>Wildlife & Nature</h4>
+                            <p>Gir National Park (Asiatic lions) • Western Ghats • Rann of Kutch</p>
+                        </div>
+                        <div class="highlight-card">
+                            <i class="fas fa-utensils"></i>
+                            <h4>Culinary Delights</h4>
+                            <p>Goan seafood • Maharashtrian vada pav • Gujarati thali • Mumbai street food</p>
+                        </div>
+                    </div>
+                    
+                    <h4 style="margin-bottom: 20px; color: #4CAF50;">Must-Visit Places</h4>
+                    
+                    <div class="itinerary-day">
+                        <h4>Maharashtra</h4>
+                        <p>Mumbai • Pune • Ajanta-Ellora • Lonavala • Mahabaleshwar</p>
+                    </div>
+                    
+                    <div class="itinerary-day">
+                        <h4>Goa</h4>
+                        <p>Beaches • Portuguese churches • Spice plantations • Nightlife</p>
+                    </div>
+                    
+                    <div class="itinerary-day">
+                        <h4>Gujarat</h4>
+                        <p>Rann of Kutch • Gir Forest • Dwarka • Somnath • Ahmedabad</p>
+                    </div>
+                    
+                    <div class="itinerary-day">
+                        <h4>Madhya Pradesh</h4>
+                        <p>Khajuraho • Sanchi Stupa • Bandhavgarh • Pachmarhi • Bhimbetka</p>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 30px;">
+                        <a href="#booking" class="cta-button">Plan Your West India Trip</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section id="testimonials">
+            <h2 class="section-title">Traveler Stories</h2>
+            <div class="testimonials-container">
+                <div class="testimonials" id="testimonials-carousel">
+                    <div class="testimonial-card">
+                        <p class="testimonial-text">"Our Golden Triangle tour with WanderNow was unforgettable! The guides' knowledge of history brought each monument to life. The team handled all logistics perfectly."</p>
+                        <div class="testimonial-author">
+                            <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Sarah L.">
+                            <div class="author-info">
+                                <h4>Sarah L.</h4>
+                                <p>Couple from London</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <p class="testimonial-text">"The Himalayan trek organized by WanderNow was challenging but rewarding. The team ensured our safety while showing us breathtaking views few tourists get to see."</p>
+                        <div class="testimonial-author">
+                            <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Mark T.">
+                            <div class="author-info">
+                                <h4>Mark T.</h4>
+                                <p>Adventure Group from Australia</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <p class="testimonial-text">"Our family loved the South India tour - from Kerala's backwaters to Tamil Nadu's temples. The kids especially enjoyed the houseboat and elephant sanctuary visits."</p>
+                        <div class="testimonial-author">
+                            <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Priya K.">
+                            <div class="author-info">
+                                <h4>Priya K.</h4>
+                                <p>Family from Singapore</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <p class="testimonial-text">"The Rajasthan luxury package exceeded expectations. From palace hotels to private desert dinners, every detail was perfect. Worth every penny!"</p>
+                        <div class="testimonial-author">
+                            <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="James W.">
+                            <div class="author-info">
+                                <h4>James W.</h4>
+                                <p>Couple from New York</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <p class="testimonial-text">"As a solo female traveler, I felt completely safe with WanderNow's women-only Kerala tour. The female guides shared insights I wouldn't have gotten otherwise."</p>
+                        <div class="testimonial-author">
+                            <img src="https://randomuser.me/api/portraits/women/33.jpg" alt="Emma R.">
+                            <div class="author-info">
+                                <h4>Emma R.</h4>
+                                <p>Solo Traveler from Canada</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <p class="testimonial-text">"The photography tour through Varanasi and Rajasthan helped me capture India's essence. WanderNow's local connections got us access to incredible locations."</p>
+                        <div class="testimonial-author">
+                            <img src="https://randomuser.me/api/portraits/men/55.jpg" alt="David P.">
+                            <div class="author-info">
+                                <h4>David P.</h4>
+                                <p>Photographer from Germany</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-nav" id="testimonial-dots">
+                    <!-- Dots will be added by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Blog Section -->
+        <section class="blog-section">
+            <h2 class="section-title">From Our Blog</h2>
+            <div class="blog-grid">
+                <div class="blog-card">
+                    <div class="blog-image">
+                        <img src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Taj Mahal">
+                    </div>
+                    <div class="blog-content">
+                        <h3>India's Golden Triangle Guide</h3>
+                        <p>How to experience Delhi, Agra and Jaipur - history, culture and practical travel tips for India's most popular circuit...</p>
+                        <a href="#" class="read-more">Read More →</a>
+                    </div>
+                </div>
+                <div class="blog-card">
+                    <div class="blog-image">
+                        <img src="https://images.unsplash.com/photo-1587474260584-136574528ed5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Kerala">
+                    </div>
+                    <div class="blog-content">
+                        <h3>South India vs North India</h3>
+                        <p>Key differences in culture, cuisine, climate and experiences between India's two most visited regions...</p>
+                        <a href="#" class="read-more">Read More →</a>
+                    </div>
+                </div>
+                <div class="blog-card">
+                    <div class="blog-image">
+                        <img src="https://images.unsplash.com/photo-1532635241-17e820acc59f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Jaipur">
+                    </div>
+                    <div class="blog-content">
+                        <h3>India Festival Calendar 2025</h3>
+                        <p>Plan your trip around vibrant events like Diwali, Holi, Pushkar Camel Fair and Durga Puja...</p>
+                        <a href="#" class="read-more">Read More →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Booking Form -->
+        <section id="booking">
+            <h2 class="section-title">Plan Your India Trip</h2>
+            <form class="booking-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="travel-date">Travel Date</label>
+                        <input type="date" id="travel-date" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="region">Region of Interest</label>
+                    <select id="region" required>
+                        <option value="">Select a region</option>
+                        <option value="north">North India</option>
+                        <option value="south">South India</option>
+                        <option value="east">East India</option>
+                        <option value="west">West India</option>
+                        <option value="custom">Multiple Regions</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="travelers">Number of Travelers</label>
+                    <select id="travelers">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3-5">3-5</option>
+                        <option value="6+">6+</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="message">Special Requests</label>
+                    <textarea id="message" rows="4" placeholder="Dietary needs, accessibility requirements, special occasions..."></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Get Your Custom Quote</button>
+            </form>
+        </section>
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Quick Navigation</h3>
+                <ul>
+                    <li><a href="#packages">Packages</a></li>
+                    <li><a href="#destinations">Destinations</a></li>
+                    <li><a href="#responsible-travel">Responsible Travel</a></li>
+                    <li><a href="#blog">Blog</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Why WanderNow?</h3>
+                <ul>
+                    <li><a href="#">India Experts</a></li>
+                    <li><a href="#">Custom Itineraries</a></li>
+                    <li><a href="#">24/7 Support</a></li>
+                    <li><a href="#">Sustainable Tourism</a></li>
+                    <li><a href="#">Best Price Guarantee</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>From Our Blog</h3>
+                <ul>
+                    <li><a href="#">India Festival Calendar 2025</a></li>
+                    <li><a href="#">Top 10 Places in India</a></li>
+                    <li><a href="#">Things To Do In India</a></li>
+                    <li><a href="#">Best Time to Visit</a></li>
+                    <li><a href="#">India Cuisine Guide</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Contact Us</h3>
+                <p><i class="fas fa-map-marker-alt"></i> WanderNow Travels, New Delhi, India</p>
+                <p><i class="fas fa-phone"></i> +91 8111822008</p>
+                <p><i class="fas fa-envelope"></i> wandernow@gmail.com</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2023 WanderNow Travels. All Rights Reserved.</p>
+            <p><a href="#">Privacy Policy</a> | <a href="#">Terms & Conditions</a> | <a href="#">Sustainability Policy</a></p>
+        </div>
+    </footer>
+
+    <script>
+    // Enhanced JavaScript for WanderNow Travels
+    document.addEventListener('DOMContentLoaded', function() {
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+        
+        mobileMenuBtn.addEventListener('click', function() {
+            navLinks.classList.toggle('active');
+            mobileMenuBtn.innerHTML = navLinks.classList.contains('active') ? 
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+        
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                    mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                }
+            });
+        });
+        
+        // Package Tab System - Updated to work with data-tab attribute
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const tabId = this.getAttribute('data-tab');
+                
+                // Remove active class from all buttons and contents
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+                
+                // Add active class to clicked button and corresponding content
+                this.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+                
+                // Scroll to package section when changing tabs
+                document.getElementById('destinations').scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+        
+        // Smooth Scrolling for Navigation Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                if (this.getAttribute('href') === '#') return;
+                
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Form Submission
+        const bookingForm = document.querySelector('.booking-form');
+        if (bookingForm) {
+            bookingForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Thank you for your inquiry! Our India travel expert will contact you within 24 hours to plan your perfect trip.');
+                this.reset();
+            });
+        }
+        
+        // Testimonials Carousel
+        const carousel = document.getElementById('testimonials-carousel');
+        if (carousel) {
+            const testimonialCards = carousel.querySelectorAll('.testimonial-card');
+            const dotsContainer = document.getElementById('testimonial-dots');
+            
+            // Create dots
+            testimonialCards.forEach((_, index) => {
+                const dot = document.createElement('div');
+                dot.classList.add('testimonial-dot');
+                if (index === 0) dot.classList.add('active');
+                dot.addEventListener('click', () => {
+                    scrollToTestimonial(index);
+                });
+                dotsContainer.appendChild(dot);
+            });
+            
+            // Handle scroll events
+            let isScrolling = false;
+            carousel.addEventListener('scroll', () => {
+                if (!isScrolling) {
+                    window.requestAnimationFrame(() => {
+                        updateActiveDot();
+                        isScrolling = false;
+                    });
+                }
+                isScrolling = true;
+            });
+            
+            function updateActiveDot() {
+                const scrollPosition = carousel.scrollLeft;
+                const cardWidth = testimonialCards[0].offsetWidth + 30; // width + gap
+                const activeIndex = Math.round(scrollPosition / cardWidth);
+                
+                document.querySelectorAll('.testimonial-dot').forEach((dot, index) => {
+                    if (index === activeIndex) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
+            }
+            
+            function scrollToTestimonial(index) {
+                const cardWidth = testimonialCards[0].offsetWidth + 30;
+                carousel.scrollTo({
+                    left: index * cardWidth,
+                    behavior: 'smooth'
+                });
+            }
+            
+            // Auto-scroll carousel
+            let currentIndex = 0;
+            setInterval(() => {
+                currentIndex = (currentIndex + 1) % testimonialCards.length;
+                scrollToTestimonial(currentIndex);
+            }, 5000);
+        }
+        
+        // Animation on scroll
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.tourism-card, .highlight-card, .blog-card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            elements.forEach(element => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(20px)';
+                element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(element);
+            });
+        }
+        
+        // Initialize animations
+        animateOnScroll();
+        
+        // Current year for footer
+        document.querySelector('.copyright p:first-child').innerHTML = 
+            `&copy; ${new Date().getFullYear()} WanderNow Travels. All Rights Reserved.`;
+    });
+    </script>
+</body>
+</html>
